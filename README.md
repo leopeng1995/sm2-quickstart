@@ -26,4 +26,25 @@
 * 验签：[https://github.com/leopeng1995/sm2-quickstart/blob/master/python/verify.py](https://github.com/leopeng1995/sm2-quickstart/blob/master/python/verify.py)
 * 加签：[https://github.com/leopeng1995/sm2-quickstart/blob/master/python/sign_and_verify.py](https://github.com/leopeng1995/sm2-quickstart/blob/master/python/sign_and_verify.py)
 
-Python 示例实际上是通过 ctypes FFI 来调用 OpenSSL C 库，因此需要执行 `build_lib.sh` 编译动态链接库。
+Python 示例实际上是通过 ctypes FFI 来调用 OpenSSL C 库，因此需要执行 `build_lib.sh` 编译动态链接库。我主要是基于原仓库增加了 `sm2_api.h` 和 `sm2_api.c` 两个文件，主要是提供一个更简单的 SM2 接口，在 C 中进行 HEX 编解码：
+
+```c
+int sm2_verify(const unsigned char *message,
+               const int message_len,
+               const unsigned char *id,
+               const int id_len,
+               const unsigned char *pub_key,
+               const unsigned char *r,
+               const unsigned char *s);
+
+// 返回 signature，是 r 和 s 的拼接，64 个字节。
+char* sm2_sign(const unsigned char *message,
+               const int message_len,
+               const unsigned char *id,
+               const int id_len,
+               const unsigned char *pub_key,
+               const unsigned char *pri_key);
+
+// 释放 malloc 创建的内存空间。
+void sm2_free(char *sig);
+```
