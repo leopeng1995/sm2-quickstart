@@ -1,0 +1,3 @@
+[submodule "SM2-signature-creation-and-verification"]
+	path = SM2-signature-creation-and-verification
+	url = https://github.com/leopeng1995/SM2-signature-creation-and-verification.git
